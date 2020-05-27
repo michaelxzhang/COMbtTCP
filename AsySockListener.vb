@@ -65,13 +65,13 @@ Public Class AsynchronousSocketListener
             m_mainSocket.Bind(localEndPoint)
             m_mainSocket.Listen(4)
 
-            Console.WriteLine("Waiting for a connection...")
+            'Console.WriteLine("Waiting for a connection...")
             RaiseEvent logEntry("Waiting for a connection...")
 
             m_mainSocket.BeginAccept(New AsyncCallback(AddressOf onClientConnect), 0)
 
         Catch e As Exception
-            Console.WriteLine(e.ToString())
+            'Console.WriteLine(e.ToString())
             RaiseEvent logEntry(e.ToString())
         End Try
 
@@ -83,7 +83,7 @@ Public Class AsynchronousSocketListener
 
             m_activeSockets(m_clientCount) = m_mainSocket.EndAccept(ar)
 
-            Console.WriteLine("Client connected!")
+            'Console.WriteLine("Client connected!")
             RaiseEvent logEntry("Client connected: " + m_activeSockets(m_clientCount).RemoteEndPoint.ToString)
 
             WaitForData(m_activeSockets(m_clientCount))
@@ -145,7 +145,7 @@ Public Class AsynchronousSocketListener
 
                 content = Encoding.ASCII.GetString(state.buffer, 0, bytesRead)
 
-                Console.Write(content)
+                'Console.Write(content)
                 RaiseEvent dataRecived(state.buffer, bytesRead)
 
             End If

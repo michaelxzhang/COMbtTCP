@@ -22,8 +22,12 @@ Partial Class Form
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form))
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.LED_RX = New System.Windows.Forms.PictureBox()
+        Me.LED_TX = New System.Windows.Forms.PictureBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Radio_Client = New System.Windows.Forms.RadioButton()
         Me.Radio_Server = New System.Windows.Forms.RadioButton()
         Me.RXDataTB = New System.Windows.Forms.TextBox()
@@ -57,13 +61,21 @@ Partial Class Form
         Me.ConsolePB = New System.Windows.Forms.Button()
         Me.BtnStop = New System.Windows.Forms.Button()
         Me.BtnStart = New System.Windows.Forms.Button()
+        Me.TimerTx = New System.Windows.Forms.Timer(Me.components)
+        Me.TimerRx = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
+        CType(Me.LED_RX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LED_TX, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         Me.MainMenu.SuspendLayout()
         Me.SuspendLayout()
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.LED_RX)
+        Me.GroupBox1.Controls.Add(Me.LED_TX)
+        Me.GroupBox1.Controls.Add(Me.PictureBox1)
         Me.GroupBox1.Controls.Add(Me.Radio_Client)
         Me.GroupBox1.Controls.Add(Me.Radio_Server)
         Me.GroupBox1.Controls.Add(Me.RXDataTB)
@@ -81,11 +93,39 @@ Partial Class Form
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Start as"
         '
+        'LED_RX
+        '
+        Me.LED_RX.Image = Global.COMbyTCP.My.Resources.Resources.led_red
+        Me.LED_RX.Location = New System.Drawing.Point(171, 149)
+        Me.LED_RX.Name = "LED_RX"
+        Me.LED_RX.Size = New System.Drawing.Size(25, 25)
+        Me.LED_RX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.LED_RX.TabIndex = 26
+        Me.LED_RX.TabStop = False
+        '
+        'LED_TX
+        '
+        Me.LED_TX.Image = Global.COMbyTCP.My.Resources.Resources.led_red
+        Me.LED_TX.Location = New System.Drawing.Point(171, 123)
+        Me.LED_TX.Name = "LED_TX"
+        Me.LED_TX.Size = New System.Drawing.Size(25, 25)
+        Me.LED_TX.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.LED_TX.TabIndex = 25
+        Me.LED_TX.TabStop = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Location = New System.Drawing.Point(253, 154)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(24, 24)
+        Me.PictureBox1.TabIndex = 24
+        Me.PictureBox1.TabStop = False
+        '
         'Radio_Client
         '
         Me.Radio_Client.AutoSize = True
         Me.Radio_Client.Checked = True
-        Me.Radio_Client.Location = New System.Drawing.Point(114, 33)
+        Me.Radio_Client.Location = New System.Drawing.Point(114, 21)
         Me.Radio_Client.Name = "Radio_Client"
         Me.Radio_Client.Size = New System.Drawing.Size(51, 17)
         Me.Radio_Client.TabIndex = 23
@@ -96,7 +136,7 @@ Partial Class Form
         'Radio_Server
         '
         Me.Radio_Server.AutoSize = True
-        Me.Radio_Server.Location = New System.Drawing.Point(18, 33)
+        Me.Radio_Server.Location = New System.Drawing.Point(18, 21)
         Me.Radio_Server.Name = "Radio_Server"
         Me.Radio_Server.Size = New System.Drawing.Size(56, 17)
         Me.Radio_Server.TabIndex = 22
@@ -388,6 +428,14 @@ Partial Class Form
         Me.BtnStart.Text = "Start"
         Me.BtnStart.UseVisualStyleBackColor = True
         '
+        'TimerTx
+        '
+        Me.TimerTx.Interval = 50
+        '
+        'TimerRx
+        '
+        Me.TimerRx.Interval = 50
+        '
         'Form
         '
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None
@@ -409,6 +457,9 @@ Partial Class Form
         Me.Text = "COM By TCP"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.LED_RX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LED_TX, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.MainMenu.ResumeLayout(False)
@@ -451,4 +502,9 @@ Partial Class Form
     Friend WithEvents BtnStart As Button
     Friend WithEvents Radio_Client As RadioButton
     Friend WithEvents Radio_Server As RadioButton
+    Friend WithEvents LED_TX As PictureBox
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents LED_RX As PictureBox
+    Friend WithEvents TimerTx As Timer
+    Friend WithEvents TimerRx As Timer
 End Class

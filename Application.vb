@@ -5,16 +5,13 @@
 'salvatore.novelli@tiscali.it
 Public Class Form
 
-
     Delegate Sub ConsolleWriteDelegate(ByVal [text] As String)
     Delegate Sub RXDataTBWriteDelegate(ByVal [val] As Integer)
     Delegate Sub TXDataTBWriteDelegate(ByVal [val] As Integer)
 
-
     Private WithEvents sockServer As AsynchronousSocketListener
     Private WithEvents sockClient As AsynchronousClient
     Private WithEvents serialPort As New SerialPort
-
 
     Private lastConsoleMsg As String = ""
     Private lastConsoleMsgTime As Date
@@ -22,17 +19,13 @@ Public Class Form
 
     Private m_fConsole As Boolean = False
 
-
     Const WINDOW_HEIGHT_BIG = 576
     Const WINDOW_HEIGHT_SMALL = 303
 
-
     Private Shared fServer As Boolean
-
 
     Private m_TCP_SendTimeout As Integer = 3000
     Private m_TCP_fNoDelay As Boolean = True
-
 
     Private Sub Form_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
@@ -52,13 +45,16 @@ Public Class Form
         Me.Height = WINDOW_HEIGHT_SMALL
         Me.Width = 500
 
-    End Sub
+        BtnStop.Enabled = False
 
+        LED_TX.Image = My.Resources.led_red
+        LED_RX.Image = My.Resources.led_red
+
+    End Sub
 
     Private Sub loadSerialPortInfo()
 
         ' Allow the user to set the appropriate properties.
-
         setPortNameCB()
         setBaudRateCB()
         setParityCB()
@@ -116,7 +112,6 @@ Public Class Form
         Me.PortNameCB.SelectedIndex = 0
 
     End Sub
-
 
     Private Sub Client_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
@@ -272,18 +267,15 @@ Public Class Form
 
     End Sub
 
-
     Private Sub disableForm()
         Me.ServerIPAddr.Enabled = False
         Me.ServerPort.Enabled = False
     End Sub
 
-
     Private Sub enableForm()
         Me.ServerIPAddr.Enabled = True
         Me.ServerPort.Enabled = True
     End Sub
-
 
     Private Sub Form_FormClosing(ByVal sender As Object, ByVal e As System.Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
         If (Not IsNothing(sockServer)) Then
@@ -294,7 +286,6 @@ Public Class Form
     Private Sub Form_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Leave
 
     End Sub
-
 
     Private Sub GetCOMPB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
@@ -323,7 +314,6 @@ Public Class Form
         End Try
 
     End Sub
-
 
     Private Sub serialPort_DataReceived(ByVal sender As Object, ByVal e As System.IO.Ports.SerialDataReceivedEventArgs) Handles serialPort.DataReceived
 
@@ -372,9 +362,11 @@ Public Class Form
         End Try
 
     End Sub
+
     Private Sub sockServer_dataSent(ByVal buffer() As Byte, ByVal bytesSent As Integer) Handles sockServer.dataSent
         addTXDataTBValue(bytesSent)
     End Sub
+
     Private Sub sockServer_logEntry(ByVal strData As String) Handles sockServer.logEntry
         TimeOfDay.ToString()
 
@@ -399,9 +391,11 @@ Public Class Form
 
         End Try
     End Sub
+
     Private Sub sockClient_dataSent(ByVal buffer() As Byte, ByVal bytesSent As Integer) Handles sockClient.dataSent
         addTXDataTBValue(bytesSent)
     End Sub
+
     Private Sub sockclient_logEntry(ByVal strData As String) Handles sockClient.logEntry
         TimeOfDay.ToString()
 
@@ -416,8 +410,8 @@ Public Class Form
     Private Sub InfoToolStripMenuItem1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MainMenu_Info.Click
         Dim ab As New AboutBox
         ab.Show()
-
     End Sub
+
     Private Sub ConsolePB_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ConsolePB.Click
 
         If m_fConsole Then
@@ -432,8 +426,9 @@ Public Class Form
         End If
 
         m_fConsole = Not m_fConsole
-        
+
     End Sub
+
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
         Dim settings As New TCPSettings
 
@@ -457,6 +452,7 @@ Public Class Form
 
         disableForm()
         BtnStart.Enabled = False
+        BtnStop.Enabled = True
 
         If Radio_Server.Checked Then
 
@@ -519,8 +515,12 @@ Public Class Form
 
         enableForm()
         BtnStart.Enabled = True
+        BtnStop.Enabled = False
 
         Me.GroupBox2.Enabled = True
+
+        LED_TX.Image = My.Resources.led_red
+        LED_RX.Image = My.Resources.led_red
 
     End Sub
 
@@ -533,7 +533,25 @@ Public Class Form
         Radio_Client.Checked = False
     End Sub
 
-    Private Sub BaudRateTB_TextChanged(sender As Object, e As EventArgs) Handles BaudRateTB.TextChanged
+    Private Sub RXDataTB_TextChanged(sender As Object, e As EventArgs) Handles RXDataTB.TextChanged
+        LED_RX.Image = My.Resources.Resources.led_green
+        TimerRx.Enabled = True
+        'LED_TX.Image = My.Resources.Resources.led_red
+    End Sub
 
+    Private Sub RXDataTB_TurnoffLed(sender As Object, e As EventArgs) Handles TimerRx.Tick
+        LED_RX.Image = My.Resources.Resources.led_red
+        'LED_TX.Image = My.Resources.Resources.led_red
+    End Sub
+
+    Private Sub TXDataTB_TextChanged(sender As Object, e As EventArgs) Handles TXDataTB.TextChanged
+        'LED_RX.Image = My.Resources.Resources.led_red
+        LED_TX.Image = My.Resources.Resources.led_green
+        TimerTx.Enabled = True
+    End Sub
+
+    Private Sub TXDataTB_TurnoffLed(sender As Object, e As EventArgs) Handles TimerTx.Tick
+        'LED_RX.Image = My.Resources.Resources.led_red
+        LED_TX.Image = My.Resources.Resources.led_red
     End Sub
 End Class

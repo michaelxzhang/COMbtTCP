@@ -164,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Receive.ico" />
+    <None Include="Resources\led-green.png" />
+    <None Include="Resources\led-red.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

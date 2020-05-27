@@ -47,7 +47,7 @@ Public Class AsynchronousClient
 
     Private Sub internalConsoleEntry(ByVal strText As String) Handles Me.logEntry
 
-        Console.WriteLine(strText)
+        'Console.WriteLine(strText)
 
     End Sub
     Private Shared Sub StartClient()
@@ -152,7 +152,7 @@ Public Class AsynchronousClient
 
                 content = Encoding.ASCII.GetString(state.buffer, 0, bytesRead)
 
-                Console.Write(content)
+                'Console.Write(content)
                 RaiseEvent dataRecived(state.buffer, bytesRead)
 
             End If
